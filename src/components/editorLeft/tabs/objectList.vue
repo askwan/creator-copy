@@ -27,10 +27,12 @@
   export default {
     data(){
       return {
-        objectList:[]
+        objectList:[],
+        currentRelation:{},
+        otype:{},
       }
     },
-    props:{},
+    props:['currentObject'],
     components:{},
     computed:{
 
@@ -57,7 +59,18 @@
       }
     },
     mounted(){
-      this.queryObject();
+
+    },
+    activated(){
+      IdEdit = getEditor();
+      if(IdEdit.currentRelation){
+        this.currentRelation = IdEdit.currentRelation;
+        this.objectList = [];
+        this.otype = this.currentObject.otype;
+        this.getObjectByRelation();
+      }else{
+        this.queryObject();
+      }
     },
     methods:{
       queryObject(){
@@ -71,10 +84,33 @@
           this.objectList = res.list;
 				});
       },
+      getObjectByRelation(){
+        // console.log(this.currentRelation,7777777777777);
+        let connector = this.otype.connectors.connectors.find(el=>el.relation.id==this.currentRelation.id);
+        console.log(connector,666666666666)
+        let obj = {
+          otNames:connector.dType.name
+        };
+        psde.objectQuery.ByNameAndOTName.query(obj).then(res=>{
+          this.objectList = res.list;
+          console.log(this.objectList,555555555)
+        })
+      },
       selectObj(obj){
-        IdEdit = getEditor();
-        IdEdit.updateParent(obj);
-        vm.$emit(operate.changeTab,{name:'objectDetail'});
+
+        if(IdEdit.currentRelation){
+          let _obj = {};
+          obj.relation = this.currentRelation;
+          obj.srcObject = this.currentObject;
+          obj.tarObject = obj;
+          IdEdit.createSObjectNetwork(this.currentObject,obj,this.currentRelation);
+          vm.$emit(operate.changeTab,{name:'objectDetail'})
+        }else{
+          IdEdit.updateParent(obj);
+          vm.$emit(operate.changeTab,{name:'objectDetail'});
+        }
+        
+        
       },
       deleteObj(obj){
         console.log("delete",obj)

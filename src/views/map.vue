@@ -22,6 +22,7 @@
     mounted(){
       this.getDiagram();
       this.getModels();
+      this.getRelationType();
     }, 
     methods:{
       getDiagram(){
@@ -46,6 +47,11 @@
           .catch(function(error) {
 
           });
+      },
+      getRelationType(){
+        new psde.GetDict().query(null,'relation').then(res=>{
+          State.relationType = res;
+        })
       }
       
     }

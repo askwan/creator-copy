@@ -36,6 +36,7 @@ export default class Editor {
     this.currentGraph = new SObjectGraph();
     this.sobjectlist = {};
     this.currentSobject = null;
+    this.currentRelation = null;
   }
   config(obj){
     Object.assign(this.options,obj);
@@ -64,6 +65,7 @@ export default class Editor {
           if(form) break;
         }
       };
+      this.currentRelation = null;
       this.currentSobject = null;
       if(form){
         this.currentSobject = sobject;

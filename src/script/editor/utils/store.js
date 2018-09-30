@@ -62,7 +62,8 @@ export const State = {
     name: 'Server',
     value: 5
   }
-  ]
+  ],
+  relationType:[]
 }
 
 export const userDiatram = userId=>{

@@ -13,8 +13,27 @@
         <div class="add-content pointer-default flex-center mg-bottom-big" @click="chooseRelation">
           <span class="font-14 no-select">+选择关系对象</span>
         </div>
-        <div class="">
-          <el-tag class="mg-right-small mg-bottom-small" v-for="i in 5" :key="i" @close="deleteParent" closable disable-transitions>地球</el-tag>
+        <div class="relation-list">
+          <el-collapse>
+            <el-collapse-item v-for='node in nodes' :key="node.id">
+              <template slot="title">
+                <div class="relation-el flex-align">
+                  <span class="font-14">{{objectDetail.name|formateName}}</span>
+                  <div class="flex-column">
+                    <span class="r-name">{{node.edge.relation.name}}</span>
+                    <div class="flex-center underline-box">
+                      <span class="underline"></span>
+                      <i class="iconfont icon-zuojiantou"></i>
+                    </div>
+                  </div>
+                  <span class="font-14">{{node.label}}</span>
+                  <i class="el-icon-delete mg-left-big pointer font-danger font-16"></i>
+                  <!-- {{objectDetail.name}}---{{node.edge.relation.name}} -----{{node.label}} -->
+                </div>
+              </template>
+            </el-collapse-item>
+          </el-collapse>
+
         </div>
       </el-collapse-item>
     </el-collapse>
@@ -27,6 +46,7 @@
       return {
         activeNames:['1'],
         parents:[],
+        nodes:[]
       }
     },
     props:{
@@ -37,16 +57,26 @@
     },
     components:{},
     computed:{},
+    filters:{
+      formateName(str){
+        return str?str:'defalut'
+      }
+    },
+    watch:{
+      objectDetail(){
+        this.parents = this.objectDetail.parents;
+        this.nodes = this.objectDetail.network.nodes;
+        console.log(this.parents,999696)
+      }
+    },
     mounted(){
-      console.log('mounted',this.parents);
       this.parents = this.objectDetail.parents;
       this.nodes = this.objectDetail.network.nodes;
     },
     activated(){
-      this.sobject = this.objectDetail;
       this.parents = this.objectDetail.parents;
       this.nodes = this.objectDetail.network.nodes;
-      console.log(this.parents,555555)
+      console.log(78979)
     },
     methods:{
       deleteParent(parent){
@@ -74,5 +104,28 @@
       border: 2px dashed #e1e3e6;
       border-radius: 4px;
     }
+    .relation-list{
+      .relation-el{
+        .r-name{
+          margin-bottom: -5px;
+        }
+        .underline-box{
+          margin: -35px 0px 0px; 
+          i{
+            display: inline-block;
+            margin-left: -5px;
+            padding-top: 1px;
+          }
+        }
+        
+      }
+      .underline{
+        display: inline-block;
+        width: 80px;
+        border: 0.5px solid #999;
+        
+      }
+    }
   }
+
 </style>
