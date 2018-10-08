@@ -37,6 +37,7 @@ import Diagram from './diagram/Diagram'
 import Proxy from './Proxy'
 
 import { objectQuery } from './objectService'
+import {psdeApi} from './config'
 
 export default {
   Field,
@@ -73,4 +74,5 @@ export default {
   REdge,
   RNode,
   RObject,
+  psdeApi,
 objectQuery}

@@ -551,12 +551,13 @@
 				this.modifyForm(this.objectDetail, str);
 			},
 			modifyFormFn(item, index) {
-				if (item.geomref && item.geomref!="" && item.geomref!="重新编辑位置") {
-					item.geom = "n" + item.geomref;
-				}
-				if (item.geomref=="重新编辑位置") {
-					item.geom = "";
-				}
+				console.log(item,555555555555)
+				// if (item.geomref && item.geomref!="" && item.geomref!="重新编辑位置") {
+				// 	item.geom = "n" + item.geomref;
+				// }
+				// if (item.geomref=="重新编辑位置") {
+				// 	item.geom = "";
+				// }
 				item.minGrain = Number(item.minGrain);
 				item.maxGrain = Number(item.maxGrain);
 				this.modifyForm(this.objectDetail, item);
@@ -695,7 +696,7 @@
 			justify-content: flex-start;
 			align-items: center;
 			span {
-				width: 70px;
+				width: 75px;
 				height: 25px;
 				line-height: 25px;
 				margin-left: 3px;

@@ -26,9 +26,9 @@ class PsdeGraph {
   saveObjects (context) {
     let token = localStorage.getItem('token');
     let json = idedit.saveEdit(context);//formate.compairOsm(context);
-    console.log(json);
+    console.log(json,999999999999);
     // console.log(JSON.stringify(json))
-    // return
+    return
     if (!json.length) return vm.$message({
       type:'info',
       message:'未检测到对象变更'

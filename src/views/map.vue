@@ -8,6 +8,7 @@
   import {State,getDiagram} from '@/script/editor/utils/store'
   import axios from 'axios'
   import { queryModelFile, downloadFile } from "@/script/editor/psde/config";
+  import {vm,operate} from '@/script/operate'
   export default {
     data(){
       return {
@@ -37,26 +38,43 @@
         })
         .then(res => {
           getDiagram(res.list);
-        });
+        }).catch(err=>{
+          vm.$emit(operate.notice,{
+            type:'error',
+            title:'网络错误',
+            message:err.message
+          })
+        })
       },
       getModels(){
+        
         axios.get(queryModelFile.baseURL, {})
           .then(response => {
             State.ModelList = response.data.data.list;
           })
           .catch(function(error) {
-
+            vm.$emit(operate.notice,{
+              type:'error',
+              title:'网络错误',
+              message:error.message
+            })
           });
       },
       getRelationType(){
         new psde.GetDict().query(null,'relation').then(res=>{
           State.relationType = res;
+        }).catch(err=>{
+          vm.$emit(operate.notice,{
+            type:'error',
+            title:'网络错误',
+            message:error.message
+          })
         })
       }
-      
     }
   }
 </script>
-<style lang='scss' scoped>
+<style scoped lang="scss">
 
 </style>
+

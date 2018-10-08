@@ -1,4 +1,6 @@
 import osm from '../psde/form/osm'
+import SObject from '../psde/psdm/SObject';
+import { jsonpRequest } from '../id-editor/modules/util/jsonp_request';
 
 let flagType = {
   created: 1,
@@ -94,7 +96,8 @@ class EditSave {
     let sobjectCanged = Idedit.currentGraph;
     let sArr = [];
     for(let id in sobjectCanged.sobjectList){
-      let s = sobjectCanged.sobjectList[id];
+      // let s = sobjectCanged.sobjectList[id];
+      let s = this.clone(sobjectCanged.sobjectList[id])
       s.forms.forEach(form=>{
         sArr.push(context.entity(form.geom));
       })
@@ -176,14 +179,18 @@ class EditSave {
   }
 
   getSaveSObject (context, idedit) {
-    let currentGraph = idedit.currentGraph
+    let currentGraph = idedit.currentGraph;
+    console.log(currentGraph,5656)
     let resultSobjectList = []
     // let osmCollection = this.getOsmChanges(context);
     let osmCollection = this.getOsmChanges1(context,idedit);
     // 检测osm变化，currentgraph未检测到的变化
     console.log(osmCollection,'osmCollecto')
     for (let key in currentGraph.sobjectList) {
-      let sobject = currentGraph.sobjectList[key];
+      // let sobject = currentGraph.sobjectList[key];
+      // let _sobject = new SObject();
+      let sobject = this.clone(currentGraph.sobjectList[key])
+      // sobject = _sobject.copyObject(sobject);
       this.addSObjectList(resultSobjectList, sobject);
       // console.log(sobject,'sobje');
       // console.log(sobject)
@@ -192,7 +199,6 @@ class EditSave {
       let entity = osmCollection[key];
 
       let sobject = idedit.getSObjectByListOsmEntity(resultSobjectList, entity.id);
-      console.log(entity.id,'entity.id');
       if (!sobject) {
         sobject = idedit.getSObjectByListOsmEntity(idedit.sobjectlist, entity.id);
         if(sobject) this.addSObjectList(resultSobjectList, sobject);
@@ -245,7 +251,6 @@ class EditSave {
         
     //   })
     // });
-
     return resultSobjectList
   }
   updateSObjectForm (sobject, entity) {
@@ -280,7 +285,8 @@ class EditSave {
     
   }
   addSObjectList (sobjectlist, sobject) {
-    console.log(sobjectlist,sobject,'sobjectlist')
+    // console.log(sobjectlist,sobject,'sobjectlist')
+    sobject = this.clone(sobject);
     let idx = sobjectlist.findIndex(el => el.id == sobject.id)
     if (idx == -1) {
       sobjectlist.push(sobject)
@@ -289,6 +295,12 @@ class EditSave {
       sobjectlist.splice(idx,1,sobject);
 
     }
+  }
+  clone(s){
+    let str = JSON.parse(JSON.stringify(s));
+    let obj = new SObject();
+    obj.copyObject(str);
+    return obj;
   }
 
 }

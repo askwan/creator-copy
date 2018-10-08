@@ -234,6 +234,18 @@
 		mounted() {
       
 		},
+		activated(){
+			this.listenEvent();
+      IdEdit = getEditor();
+			this.diagrams = State.diagrams;
+			let obj = this.entityObj;
+			this.showDiagramList = true;
+			this.searchValue = "";
+			this.type = Type[obj.type];
+			if(obj.tags.area=='yes') this.type = 23;
+			this.entityId = obj.id;
+			this.$emit("enterDetail", true);
+		},
 		beforeMount(){
 			this.listenEvent();
       IdEdit = getEditor();
@@ -311,6 +323,7 @@
 				let fromtype = m.type;
 				let geotype = m.positions[0];
 				let otype = it;
+				console.log(this.entityId,123123)
 				if(IdEdit.idContext.entity(this.entityId).type=='relation') geotype = 24;
 				IdEdit.createSobject(this.entityId, otype, fromtype, geotype);
 				this.currentDiagram = null;

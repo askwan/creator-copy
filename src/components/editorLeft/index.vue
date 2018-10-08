@@ -4,7 +4,6 @@
       <span class="font-16 text-ellipsis">Name is default ( 999 ) 吴浩</span>
     </div>
     <div class="object-detail">
-      <!-- <div v-for="i in 100" :key="i">{{i}}</div> -->
       <keep-alive>
         <component :is="componentId" :currentObject="sobject" :entity="entity"></component>
       </keep-alive>
@@ -25,7 +24,8 @@
       'objectDetail':()=>import('./tabs/objectDetail.vue'),
       'relationOperate':()=>import('./tabs/relationOperate.vue'),
       'objectList':()=>import('./tabs/objectList.vue'),
-      'relationList':()=>import('./tabs/relationList.vue')
+      'relationList':()=>import('./tabs/relationList.vue'),
+      'behaviorList':()=>import('./tabs/behaviorList.vue')
     },
     computed:{},
     mounted(){

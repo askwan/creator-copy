@@ -1,42 +1,35 @@
 <template>
   <div class='relation-box pd-left-big pd-right-big'>
-    <el-collapse v-model="activeNames">
-      <el-collapse-item title="父对象" name="1">
-        <div class="add-content pointer-default flex-center mg-bottom-big" @click="chooseParent">
-          <span class="font-14 no-select">+选择父对象</span>
-        </div>
-        <div class="">
-          <el-tag v-for="parent in parents" class="mg-right-small mg-bottom-small" :key="parent" @close="deleteParent(parent)" closable disable-transitions>{{parent}}</el-tag>
-        </div>
-      </el-collapse-item>
-      <el-collapse-item title="关系对象" name="2">
-        <div class="add-content pointer-default flex-center mg-bottom-big" @click="chooseRelation">
-          <span class="font-14 no-select">+选择关系对象</span>
-        </div>
-        <div class="relation-list">
-          <el-collapse>
-            <el-collapse-item v-for='node in nodes' :key="node.id">
-              <template slot="title">
-                <div class="relation-el flex-align">
-                  <span class="font-14">{{objectDetail.name|formateName}}</span>
-                  <div class="flex-column">
-                    <span class="r-name">{{node.edge.relation.name}}</span>
-                    <div class="flex-center underline-box">
-                      <span class="underline"></span>
-                      <i class="iconfont icon-zuojiantou"></i>
-                    </div>
-                  </div>
-                  <span class="font-14">{{node.label}}</span>
-                  <i class="el-icon-delete mg-left-big pointer font-danger font-16"></i>
-                  <!-- {{objectDetail.name}}---{{node.edge.relation.name}} -----{{node.label}} -->
+    <div class="add-content pointer-default flex-center mg-bottom-big" @click="chooseRelation">
+      <span class="font-14 no-select">+选择关系对象</span>
+    </div>
+    <div class="relation-list">
+      <el-collapse>
+        <el-collapse-item v-for='node in nodes' :key="node.id">
+          <template slot="title">
+            <div class="relation-el flex-align">
+              <span class="font-14">{{objectDetail.name|formateName}}</span>
+              <div class="flex-column">
+                <span class="r-name">{{node.edge.relation.name}}</span>
+                <div class="flex-center underline-box">
+                  <span class="underline"></span>
+                  <i class="iconfont icon-zuojiantou"></i>
                 </div>
-              </template>
-            </el-collapse-item>
-          </el-collapse>
-
-        </div>
-      </el-collapse-item>
-    </el-collapse>
+              </div>
+              <span class="font-14">{{node.label}}</span>
+              <i class="el-icon-delete mg-left-big pointer font-danger font-16"></i>
+            </div>
+          </template>
+          <div>
+            <el-form size="mini" label-width="80px" v-if="node.edge.relation" >
+              <el-form-item v-for="(field,k) in node.edge.relation.fields.fields" :key="k" :label="field.caption">
+                <el-input v-model="num"></el-input>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-collapse-item>
+      </el-collapse>
+    </div>
   </div>
 </template>
 <script>
@@ -46,7 +39,8 @@
       return {
         activeNames:['1'],
         parents:[],
-        nodes:[]
+        nodes:[],
+        num:''
       }
     },
     props:{
@@ -66,7 +60,7 @@
       objectDetail(){
         this.parents = this.objectDetail.parents;
         this.nodes = this.objectDetail.network.nodes;
-        console.log(this.parents,999696)
+        
       }
     },
     mounted(){
@@ -76,7 +70,6 @@
     activated(){
       this.parents = this.objectDetail.parents;
       this.nodes = this.objectDetail.network.nodes;
-      console.log(78979)
     },
     methods:{
       deleteParent(parent){
@@ -123,7 +116,6 @@
         display: inline-block;
         width: 80px;
         border: 0.5px solid #999;
-        
       }
     }
   }
