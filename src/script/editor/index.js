@@ -1,5 +1,7 @@
 import * as iD from './id-editor/modules';
 
+import {vm,operate} from '../operate'
+
 import "./id-editor/css/00_reset.css";
 import "./id-editor/css/20_map.css";
 import "./id-editor/css/25_areas.css";
@@ -13,6 +15,7 @@ import "./id-editor/css/60_photos.css";
 import "./id-editor/css/70_fills.css";
 import "./id-editor/css/80_app.css";
 import psde from './psde';
+// import psdeGraph from './psde/PsdeGraph'
 
 import { dispatch as d3_dispatch } from 'd3-dispatch';
 import { select as d3_select } from 'd3-selection';
@@ -29,6 +32,7 @@ import {Relation,Delete} from './operates'
 const dispatch = d3_dispatch('currentObject')
 
 var relationRandomId = 1;
+let isAjax = true;
 export default class Editor {
   constructor(options={}){
     this.options = {};
@@ -75,7 +79,7 @@ export default class Editor {
       }
     });
     this.idContext.on('saveObjects',context=>{
-      
+      // psdeGraph.saveObjects(context);
       this.saveEdit(context);
     })
   }
@@ -156,8 +160,47 @@ export default class Editor {
     return null
   }
   saveEdit (context) {
-    let resultSobjectList = editsave.getSaveSObject(context, this);
-    return resultSobjectList
+    let json = editsave.getSaveSObject(context, this);
+    console.log(json);
+
+    // return 
+    let token = localStorage.getItem('token');
+    if (!json.length) return vm.$emit(operate.notice,{
+      title:'提示',
+      message:'未检测到变更。'
+    });
+    
+    let loading = vm.$loading({
+      lock:true,
+      text:'加载中',
+      spinner:'el-icon-loading',
+      background:'rgba(255,255,255,.2)'
+    });
+    if (isAjax) {
+      isAjax = false;
+      psde.psdeApi.post(`/object/saveObject?token=${token}`, json).then((result) => {
+        // console.log(result)
+        isAjax = true
+        if (result.data.status == 200) {
+          alert('saved')
+          context.flush();
+          idedit.clearGraph();
+          osm.clearCollection();
+          vm.$emit(operate.notice,{
+            type:'success',
+            title:'成功',
+            message:'保存成功'
+          })
+        }else {
+          vm.$emit(operate.notice,{
+            type:'error',
+            title:'错误',
+            message:'保存失败'
+          })
+        };
+        loading.close();
+      })
+    }
   }
   clearGraph () {
     this.currentGraph.clearSobject();

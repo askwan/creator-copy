@@ -21,6 +21,8 @@ class OsmEntity {
     this.content = content
   }
   updateFlag (flag) {
+    if(this.flag==1) return;
+    if(this.flag==3) return;
     this.flag = flag
   }
   clearId(){

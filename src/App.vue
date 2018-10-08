@@ -1,6 +1,12 @@
 <template>
   <div id="app" class="fill">
-    <nav class="header-box"></nav>
+    <nav class="header-box flex-align pd-mini">
+      <el-button-group>
+        <el-button size="small" type="primary">浏览</el-button>
+        <el-button size="small">历史</el-button>
+        <el-button size="small">导出</el-button>
+      </el-button-group>
+    </nav>
     <div class="map-content">
       <router-view/>
     </div>
@@ -8,8 +14,20 @@
 </template>
 
 <script>
+
+import {vm,operate} from '@/script/operate'
 export default {
-  name: 'App'
+  name: 'App',
+  mounted(){
+    vm.$on(operate.notice,obj=>{
+      if(obj.message){
+        obj.message = obj.message.slice(0,20);
+      };
+      obj.type = obj.type || 'info';
+      obj.title = obj.title || '提示';
+      this.$notify(obj);
+    })
+  }
 }
 </script>
 

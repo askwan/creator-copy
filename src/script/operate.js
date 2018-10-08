@@ -1,7 +1,9 @@
 import Vue from 'vue';
 
 export const operate = {
-  changeTab:'changeTab'
+  changeTab:'changeTab',
+  selectBehavior:'selectBehavior',
+  notice:'notice'
 }
 
 let vm = new Vue();

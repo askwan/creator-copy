@@ -183,18 +183,15 @@ class EditSave {
     // let osmCollection = this.getOsmChanges(context);
     let osmCollection = this.getOsmChanges1(context);
     // 检测osm变化，currentgraph未检测到的变化
-    console.log(osmCollection,'osmCollecto')
+    console.log(osmCollection,'osmCollecto33333333333')
     for (let key in currentGraph.sobjectList) {
       let sobject = currentGraph.sobjectList[key];
       this.addSObjectList(resultSobjectList, sobject);
-      // console.log(sobject,'sobje');
-      // console.log(sobject)
     }
     for (var key in osmCollection) {
       let entity = osmCollection[key];
 
       let sobject = idedit.getSObjectByListOsmEntity(resultSobjectList, entity.id);
-      console.log(entity.id,'entity.id');
       if (!sobject) {
         sobject = idedit.getSObjectByListOsmEntity(idedit.sobjectlist, entity.id);
         if(sobject) this.addSObjectList(resultSobjectList, sobject);
@@ -247,15 +244,15 @@ class EditSave {
         
     //   })
     // });
-
+    console.log(resultSobjectList,55555555555)
     return resultSobjectList
   }
   updateSObjectForm (sobject, entity) {
     let entityId = entity.id.replace(/[^0-9]/ig, '');
     let form = sobject.forms.find(el => el.geom == entity.id)
     form.geom = entity;
-    // console.log(entity.refOb)
-    // return
+
+
     // form.formref.geometry = entity;
 
     if (form.type < 30) {

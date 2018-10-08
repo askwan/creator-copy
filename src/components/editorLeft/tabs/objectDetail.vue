@@ -16,12 +16,20 @@
           <relation-tab :objectDetail="sobject"></relation-tab>
         </div>
       </el-collapse-item>
+      <el-collapse-item title="组成结构" name="6">
+        <div class="tab-box">
+          <constitute-tab :objectDetail="sobject"></constitute-tab>
+        </div>
+      </el-collapse-item>
       <el-collapse-item title="行为" name="4">
         <div class="tab-box">
+          <behavior-tab :objectDetail="sobject"></behavior-tab>
         </div>
       </el-collapse-item>
       <el-collapse-item title="时空" name="5">
-        <div class="tab-box"></div>
+        <div class="tab-box">
+          <domain-tab :objectDetail="sobject"></domain-tab>
+        </div>
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -33,7 +41,7 @@
       return {
         sobject:{},
         otype:{},
-        activeNames: ['3'],
+        activeNames: ['1'],
       }
     },
     props:{
@@ -53,7 +61,10 @@
     components:{
       'propertyTab':()=>import('./propertyTab.vue'),
       'formTab':()=>import('./formTab.vue'),
-      'relationTab':()=>import('./relationTab.vue')
+      'relationTab':()=>import('./relationTab.vue'),
+      'behaviorTab':()=>import('./behaviorTab.vue'),
+      'domainTab':()=>import('./domainTab.vue'),
+      'constituteTab':()=>import('./constituteTab.vue')
     },
     computed:{},
     activated(){
