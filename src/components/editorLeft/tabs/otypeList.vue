@@ -301,7 +301,7 @@
 				} else {
 					this.showDiagramList = true;
 				}
-				console.log(this.searchOtypeList, this.searchValue.length, "过滤成功");
+				// console.log(this.searchOtypeList, this.searchValue.length, "过滤成功");
 			},
 			openDiagram(item, index) {
 				if(this.currentDiagram == item.id) {
@@ -323,7 +323,7 @@
 				let fromtype = m.type;
 				let geotype = m.positions[0];
 				let otype = it;
-				console.log(this.entityId,123123)
+				// console.log(this.entityId,123123)
 				if(IdEdit.idContext.entity(this.entityId).type=='relation') geotype = 24;
 				IdEdit.createSobject(this.entityId, otype, fromtype, geotype);
 				this.currentDiagram = null;

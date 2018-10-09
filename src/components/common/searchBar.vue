@@ -38,7 +38,8 @@
 		position: relative;
 		width: 100%;
 		background: #fff;
-		height: 36px;
+		height: 38px;
+		// border: 1px solid #ccc;
 		&.active {
 			.search-a {
 				background: #176de6;
@@ -46,8 +47,8 @@
 		}
 		.search-a {
 			position: absolute;
-			top: -1px;
-			right: 0;
+			top: 0px;
+			right: -1px;
 			width: 38px;
 			height: 38px;
 			&:after,

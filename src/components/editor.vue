@@ -41,7 +41,9 @@
               this.entity = context.entity(data.entityId);
               vm.$emit(operate.changeTab,{name:'diagramList'});
             }else if(!data.entityId){
-              vm.$emit(operate.changeTab,{name:''});
+              vm.$emit(operate.changeTab,{name:'searchList'});
+            }else{
+              vm.$emit(operate.changeTab,{name:'searchList'})
             }
           })
         });

@@ -9,12 +9,17 @@ export default new Router({
     {
       path: '/',
       name: 'HelloWorld',
-      component: HelloWorld
+      // component: HelloWorld,
+      redirect:'/view'
     },
     {
       path: '/map',
       name: 'map',
-      component: ()=>import('@/views/map')
+      component: ()=>import('@/views/edit')
+    },{
+      path:'/view',
+      name:'view',
+      component:()=>import('@/views/view')
     }
   ]
 })

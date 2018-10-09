@@ -1,11 +1,7 @@
 <template>
   <div id="app" class="fill">
-    <nav class="header-box flex-align pd-mini">
-      <el-button-group>
-        <el-button size="small" type="primary">浏览</el-button>
-        <el-button size="small">历史</el-button>
-        <el-button size="small">导出</el-button>
-      </el-button-group>
+    <nav class="header-box">
+      <header-box></header-box>
     </nav>
     <div class="map-content">
       <router-view/>
@@ -27,7 +23,15 @@ export default {
       obj.title = obj.title || '提示';
       this.$notify(obj);
     })
-  }
+  },
+  methods:{
+    history(){
+      vm.$emit(operate.openTab,{name:'history'});
+    }
+  },
+  components:{
+    'headerBox':()=>import('@/components/header')
+  },
 }
 </script>
 

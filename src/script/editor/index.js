@@ -2,18 +2,18 @@ import * as iD from './id-editor/modules';
 
 import {vm,operate} from '../operate'
 
-import "./id-editor/css/00_reset.css";
-import "./id-editor/css/20_map.css";
-import "./id-editor/css/25_areas.css";
-import "./id-editor/css/30_highways.css";
-import "./id-editor/css/35_aeroways.css";
-import "./id-editor/css/40_railways.css";
-import "./id-editor/css/45_waterways.css";
-import "./id-editor/css/50_misc.css";
-import "./id-editor/css/55_cursors.css";
-import "./id-editor/css/60_photos.css";
-import "./id-editor/css/70_fills.css";
-import "./id-editor/css/80_app.css";
+// import "./id-editor/css/00_reset.css";
+// import "./id-editor/css/20_map.css";
+// import "./id-editor/css/25_areas.css";
+// import "./id-editor/css/30_highways.css";
+// import "./id-editor/css/35_aeroways.css";
+// import "./id-editor/css/40_railways.css";
+// import "./id-editor/css/45_waterways.css";
+// import "./id-editor/css/50_misc.css";
+// import "./id-editor/css/55_cursors.css";
+// import "./id-editor/css/60_photos.css";
+// import "./id-editor/css/70_fills.css";
+// import "./id-editor/css/80_app.css";
 import psde from './psde';
 // import psdeGraph from './psde/PsdeGraph'
 
@@ -60,6 +60,7 @@ export default class Editor {
   listen(){
     this.idContext.on('selectEle',ele=>{
       if(!ele) return dispatch.call('currentObject',this,{object:null,entityId:null});
+      if(this.currentSobject) return dispatch.call('currentObject',this,{object:this.currentSobject,entity:ele});
       let sobject, form;
       for(let id in State.sobjects){
         sobject = State.sobjects[id];
@@ -95,7 +96,7 @@ export default class Editor {
     }else if (geotype == 23) {
       d3_select('.add-area').nodes()[0].click();
     };
-    
+    // this.
   }
   createSobject (entityId, otype, formType, geoType) {
     let sobject = this.currentGraph.createSobjectByOsmEntityId(entityId, otype, formType, geoType);
@@ -182,15 +183,14 @@ export default class Editor {
         // console.log(result)
         isAjax = true
         if (result.data.status == 200) {
-          alert('saved')
+          
           context.flush();
-          idedit.clearGraph();
-          osm.clearCollection();
+          this.clearGraph();
           vm.$emit(operate.notice,{
             type:'success',
             title:'成功',
             message:'保存成功'
-          })
+          });
         }else {
           vm.$emit(operate.notice,{
             type:'error',

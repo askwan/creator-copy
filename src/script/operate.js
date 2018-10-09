@@ -3,7 +3,10 @@ import Vue from 'vue';
 export const operate = {
   changeTab:'changeTab',
   selectBehavior:'selectBehavior',
-  notice:'notice'
+  notice:'notice',
+  selectObject:'selectObject',
+  openTab:'openTab',
+  mapBoxZoom:'mapBoxZoom',
 }
 
 let vm = new Vue();

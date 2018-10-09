@@ -1,6 +1,5 @@
 import osm from '../psde/form/osm'
 import SObject from '../psde/psdm/SObject';
-import { jsonpRequest } from '../id-editor/modules/util/jsonp_request';
 
 let flagType = {
   created: 1,
@@ -84,7 +83,6 @@ class EditSave {
 
   getOsmChanges1(context,Idedit){
     let changes = context.changes();
-    console.log(changes)
     let _osmChange = [];
     //created
     let created = this.formateOsm(context,changes.created,flagType.created);
@@ -182,23 +180,22 @@ class EditSave {
     let currentGraph = idedit.currentGraph;
     console.log(currentGraph,5656)
     let resultSobjectList = []
-    // let osmCollection = this.getOsmChanges(context);
     let osmCollection = this.getOsmChanges1(context,idedit);
     // 检测osm变化，currentgraph未检测到的变化
     console.log(osmCollection,'osmCollecto')
     for (let key in currentGraph.sobjectList) {
       // let sobject = currentGraph.sobjectList[key];
       // let _sobject = new SObject();
-      let sobject = this.clone(currentGraph.sobjectList[key])
+      let sobject = currentGraph.sobjectList[key];
       // sobject = _sobject.copyObject(sobject);
       this.addSObjectList(resultSobjectList, sobject);
-      // console.log(sobject,'sobje');
-      // console.log(sobject)
+
     }
     for (var key in osmCollection) {
       let entity = osmCollection[key];
 
       let sobject = idedit.getSObjectByListOsmEntity(resultSobjectList, entity.id);
+
       if (!sobject) {
         sobject = idedit.getSObjectByListOsmEntity(idedit.sobjectlist, entity.id);
         if(sobject) this.addSObjectList(resultSobjectList, sobject);
@@ -206,8 +203,10 @@ class EditSave {
       if(sobject){
         let bool = adjustChange(entity);
         if(!bool) continue;
-        this.updateSObjectForm(sobject, entity)
+        this.addSObjectList(resultSobjectList,sobject);
+        this.updateSObjectForm(resultSobjectList,sobject.id, entity);
       }
+
       // if (sobject != null) {
       //   console.log(sobject,99999999999)
       //   let bool = adjustChange(entity);
@@ -253,7 +252,8 @@ class EditSave {
     // });
     return resultSobjectList
   }
-  updateSObjectForm (sobject, entity) {
+  updateSObjectForm (collection,sobjectId, entity) {
+    let sobject = collection.find(el=>el.id==sobjectId);
     let entityId = entity.id.replace(/[^0-9]/ig, '');
     let form = sobject.forms.find(el => el.geom == entity.id)
     form.geom = entity;
@@ -281,18 +281,17 @@ class EditSave {
       sobject.modifyForm(form)
     }else if (entity.flag == 3) {
       sobject.deleteForm(form)
-    }
-    
+    };
+    return sobject
   }
   addSObjectList (sobjectlist, sobject) {
-    // console.log(sobjectlist,sobject,'sobjectlist')
-    sobject = this.clone(sobject);
-    let idx = sobjectlist.findIndex(el => el.id == sobject.id)
+    let _sobject = this.clone(sobject);
+    let idx = sobjectlist.findIndex(el => el.id == _sobject.id)
     if (idx == -1) {
-      sobjectlist.push(sobject)
+      sobjectlist.push(_sobject)
     }else{
-      sobject.attributes = sobjectlist[idx].attributes;
-      sobjectlist.splice(idx,1,sobject);
+      _sobject.attributes = sobjectlist[idx].attributes;
+      sobjectlist.splice(idx,1,_sobject);
 
     }
   }

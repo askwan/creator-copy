@@ -1,7 +1,7 @@
 <template>
   <div class='left-box fill'>
     <div class="object-title pd-left-small pd-right-small">
-      <span class="font-16 text-ellipsis">Name is default ( 999 ) 吴浩</span>
+      <span class="font-16 text-ellipsis">{{title}}</span>
     </div>
     <div class="object-detail">
       <keep-alive>
@@ -15,7 +15,8 @@
   export default {
     data(){
       return {
-        componentId:''
+        componentId:'searchList',
+        title:''
       }
     },
     props:['sobject','entity'],
@@ -25,16 +26,27 @@
       'relationOperate':()=>import('./tabs/relationOperate.vue'),
       'objectList':()=>import('./tabs/objectList.vue'),
       'relationList':()=>import('./tabs/relationList.vue'),
-      'behaviorList':()=>import('./tabs/behaviorList.vue')
+      'behaviorList':()=>import('./tabs/behaviorList.vue'),
+      'searchList':()=>import('./tabs/searchList.vue')
     },
     computed:{},
     mounted(){
       this.listenEvent();
     },
+    watch:{
+      componentId(val){
+        if(val!='objectDetail'){
+          this.title = '';
+        }else{
+          this.title = this.sobject.name||'default'
+        }
+      }
+    },
     methods:{
       listenEvent(){
         vm.$on(operate.changeTab,obj=>{
           this.componentId = obj.name;
+          console.log(obj,456)
         })
       }
     }
@@ -43,8 +55,10 @@
 <style lang='scss' scoped>
   $height:50px;
   .left-box{
+    background: #f1f1f1;
     .object-title{
       height: $height;
+      background: #fff;
       border-bottom: 1px solid #ccc;
       span{
         line-height: $height;
