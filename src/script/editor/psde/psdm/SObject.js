@@ -48,8 +48,17 @@ export default class SObject extends DObject {
             el.style = ''
           }
         }
+        console.log(el,6666666666666)
+        if(el.geom.geotype==21){
+          // el.geom = new osm.OsmNode();
+          el.geom = new osm.OsmNode().copy(el.geom);
+        }else if(el.geom.geotype == 22||el.geom.geotype==23){
+          el.geom = new osm.OsmWay().copy(el.geom);
+        }else if(el.geom.geotype==24){
+          el.geom = new osm.OsmRelation().copy(el.geom);
+        }
         return el
-      })
+      });
     }
     function parse (arr) {
       arr = eval(arr)

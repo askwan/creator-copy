@@ -41,6 +41,7 @@ export default class Editor {
     this.sobjectlist = {};
     this.currentSobject = null;
     this.currentRelation = null;
+    this.currentForm = null;
   }
   config(obj){
     Object.assign(this.options,obj);
@@ -60,7 +61,14 @@ export default class Editor {
   listen(){
     this.idContext.on('selectEle',ele=>{
       if(!ele) return dispatch.call('currentObject',this,{object:null,entityId:null});
-      if(this.currentSobject) return dispatch.call('currentObject',this,{object:this.currentSobject,entity:ele});
+      if(this.currentSobject&&this.currentForm) {
+        let _form = this.currentSobject.forms.find(el=>el.id==this.currentForm.id);
+        if(_form){
+          _form.geom = ele;
+        }
+        dispatch.call('currentObject',this,{object:this.currentSobject,entity:ele});
+        return
+      }
       let sobject, form;
       for(let id in State.sobjects){
         sobject = State.sobjects[id];
@@ -72,6 +80,7 @@ export default class Editor {
       };
       this.currentRelation = null;
       this.currentSobject = null;
+      this.currentForm = null;
       if(form){
         this.currentSobject = sobject;
         dispatch.call('currentObject',this,{object:sobject,entityId:ele})
@@ -88,7 +97,9 @@ export default class Editor {
 
 
   setTool (style, otype, modeOptions) {
-    let geotype = modeOptions.form.geotype
+    let geotype = modeOptions.form.geotype;
+    // console.log(style,otype,modeOptions,55555555);
+    this.currentForm = modeOptions.form;
     if (geotype == 21) {
       d3_select('.add-point').nodes()[0].click();
     }else if (geotype == 22) {
@@ -164,7 +175,7 @@ export default class Editor {
     let json = editsave.getSaveSObject(context, this);
     console.log(json);
 
-    // return 
+    return 
     let token = localStorage.getItem('token');
     if (!json.length) return vm.$emit(operate.notice,{
       title:'提示',

@@ -94,7 +94,6 @@ class EditSave {
     let sobjectCanged = Idedit.currentGraph;
     let sArr = [];
     for(let id in sobjectCanged.sobjectList){
-      // let s = sobjectCanged.sobjectList[id];
       let s = this.clone(sobjectCanged.sobjectList[id])
       s.forms.forEach(form=>{
         sArr.push(context.entity(form.geom));
@@ -228,7 +227,7 @@ class EditSave {
     // let trans = JSON.stringify(resultSobjectList);
 
     // resultSobjectList = JSON.parse(trans);
-
+    console.log(resultSobjectList,'resultlist')
     resultSobjectList.forEach(obj => {
       obj.otype = {id: obj.otype.id};
       obj.forms.forEach(form => {
@@ -238,18 +237,12 @@ class EditSave {
       		form.style = "";
         }
         if(typeof form.geom =='object'){
+          console.log(form,4564456);
           form.geom.clearId();
         }
       })
     })
-    // resultSobjectList.forEach(obj=>{
-    //   obj.forms.forEach(form=>{
-    //     if(form.geom && form.geom.includes('RELATION')){
-    //       form.geotype= 24;
-    //     };
-        
-    //   })
-    // });
+
     return resultSobjectList
   }
   updateSObjectForm (collection,sobjectId, entity) {
@@ -297,6 +290,7 @@ class EditSave {
   }
   clone(s){
     let str = JSON.parse(JSON.stringify(s));
+    // let str = Object.assign({},s)
     let obj = new SObject();
     obj.copyObject(str);
     return obj;

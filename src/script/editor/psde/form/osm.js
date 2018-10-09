@@ -30,6 +30,10 @@ class OsmEntity {
     this.id = this.id.replace(/[^0-9]/ig,"")
     // if(this.flag==1) this.id = 0;
   }
+  copy(form){
+    Object.assign(this,form);
+    return this;
+  }
 }
 
 class OsmNode extends OsmEntity {
