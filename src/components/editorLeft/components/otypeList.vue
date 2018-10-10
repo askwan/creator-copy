@@ -311,11 +311,7 @@
 				}
 			},
 			openOtype(it, ix) {
-				/*this.$message({
-					message: "请从右边选择具体的类型新建！",
-					type: "warning",
-					showClose: true
-				});*/
+				
 			},
 			addObject(m, it) {
 				this.addHot(it);
@@ -331,7 +327,7 @@
 				// this.$emit("enterDetail", false);
 			},
 			pathTo(){
-				vm.$emit(operate.changeTab,{name:'relationOperate'});
+				vm.$emit(operate.changeTab,{name:'addRelation'});
 			},
 			addHot(otype){
 				let index = this.hotOtypes.findIndex(el=>el.id==otype.id);

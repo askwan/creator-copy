@@ -46,11 +46,11 @@
 			<div class="accordion-down cle">
 				<el-collapse v-model="activeName" accordion class="collapse">
 					<draggable v-model="accordionData" :options="{group:'people',handle:'.li'}" class="draggable">
-						<div class="li cle" v-for="(n,i) in accordionData" :key="i">
-							<div class="title"><span>{{i+1}}</span></div>
-							<div class="del" @click="del(i)"><i class="iconfont icon-shanchu11"></i></div>
+						<div class="li cle pd-left-small pd-right-small" v-for="(n,i) in accordionData" :key="i">
+							<!-- <div class="title"><span>{{i+1}}</span></div> -->
+							<div class="del" @click="del(i)"><i class="iconfont icon-shanchu11 font-14"></i></div>
 							<el-collapse-item :title="n.name" :name="i" class="step-li">
-								<el-form label-position="right" label-width="60px" :model="n">
+								<el-form size="mini" label-position="right" label-width="80px" :model="n">
 									<el-form-item label="时间:">
 
 										<el-date-picker class="accordion-input" @change="change(i)" v-model="n.etime" type="datetime" placeholder="选择日期时间" default-time="12:00:00">
@@ -290,13 +290,17 @@
 				behaviorService.delete(arr).then(
 					response => {
 						this.query(this.allId);
-						this.$message({
+						vm.$emit(operate.notice,{
 							message: "删除成功！",
 							type: "success",
-							showClose: true
-						});
+						})
 					},
-					error => {}
+					error => {
+						vm.$emit(operate.notice,{
+							message: "错误",
+							type: "error",
+						})
+					}
 				);
 			},
 			amend() {
@@ -308,13 +312,17 @@
 				behaviorService.update(arr).then(
 					response => {
 						this.query(this.allId);
-						this.$message({
+						vm.$emit(operate.notice,{
 							message: "更新成功！",
 							type: "success",
-							showClose: true
-						});
+						})
 					},
-					error => {}
+					error => {
+						vm.$emit(operate.notice,{
+							message: "错误",
+							type: "error",
+						})
+					}
 				);
 			},
 			change(val) {
@@ -353,13 +361,17 @@
 				behaviorService.save(arr).then(
 					response => {
 						this.query(this.allId);
-						this.$message({
+						vm.$emit(operate.notice,{
 							message: "新加成功！",
 							type: "success",
-							showClose: true
-						});
+						})
 					},
-					error => {}
+					error => {
+						vm.$emit(operate.notice,{
+							message: "错误",
+							type: "error",
+						})
+					}
 				);
 			},
 
@@ -527,10 +539,10 @@
 							}
 							.del {
 								position: absolute;
-								top: 6px;
-								right: 13px;
+								top: 10px;
+								right: 30px;
 								i {
-									color: #ff0000;
+									color: #F56C6C;
 									cursor: pointer;
 								}
 							}

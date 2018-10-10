@@ -1,12 +1,17 @@
 <template>
-  <div class='relation-list pd-big'>
-    <div v-for="relation in relationsList" :key="relation.id" class="relation-el radius-2 pointer-shadow pd-small mg-bottom-big" @click="selectRelation(relation)">
-      <div class="relation-text flex mg-bottom-small">
-        <div class="relation-icon font-white radius-2 flex-center font-14">{{relation.name|initialName}}</div>
-        <p class="mg-left-small font-14">{{relation.name}}</p>
-      </div>
-      <div class="tags">
-        <el-tag size="mini">{{relation.mappingType|getName}}</el-tag>
+  <div class="fill relation-box">
+    <div class="pd-left-small pd-right-small">
+      <common-head title="关系列表" @back="back"></common-head>
+    </div>
+    <div class='relation-list pd-big'>
+      <div v-for="relation in relationsList" :key="relation.id" class="relation-el radius-2 pointer-shadow pd-small mg-bottom-big" @click="selectRelation(relation)">
+        <div class="relation-text flex mg-bottom-small">
+          <div class="relation-icon font-white radius-2 flex-center font-14">{{relation.name|initialName}}</div>
+          <p class="mg-left-small font-14">{{relation.name}}</p>
+        </div>
+        <div class="tags">
+          <el-tag size="mini">{{relation.mappingType|getName}}</el-tag>
+        </div>
       </div>
     </div>
   </div>
@@ -27,7 +32,9 @@
         default:()=>{return {}}
       }
     },
-    components:{},
+    components:{
+      commonHead:()=>import('@/components/common/tabHead.vue')
+    },
     computed:{},
     filters:{
       initialName(str){
@@ -72,11 +79,17 @@
         let IdEdit = getEditor();
         IdEdit.currentRelation = relation;
         vm.$emit(operate.changeTab,{name:'objectList'})
+      },
+      back(){
+        vm.$emit(operate.changeTab,{name:'objectDetail'})
       }
     }
   }
 </script>
 <style lang='scss' scoped>
+  .relation-box{
+    background: #fff;
+  }
   .relation-list{
     .relation-el{
       border: 1px solid #ccc;

@@ -13,6 +13,8 @@
   import {vm,operate} from '@/script/operate'
   import * as mapbox from '@/script/mapbox'
   import psde from '@/script/editor/psde'
+  import mapposition from '@/script/mapposition'
+  let map;
   export default {
     data(){
       return {
@@ -37,7 +39,12 @@
       }
     },
     mounted(){
-      mapbox.createMapboxMap('mapbox');
+      map = mapbox.createMapboxMap('mapbox',()=>{
+        //定位
+        let position = mapposition.getMapPosition();
+        map.setCenter([position.lng, position.lat], position.zoom );
+        map.setZoom(position.zoom);
+      });
       this.listenEvent();
     },
     methods:{
@@ -67,7 +74,13 @@
       }
     },
     destroyed(){
-      vm.$off([operate.selectObject])
+      vm.$off([operate.selectObject]);
+      
+      mapposition.saveMapPosition({
+        lng: map.getCenter().lng,
+        lat: map.getCenter().lat,
+        zoom: map.getZoom() 
+      });
     }
   }
 </script>

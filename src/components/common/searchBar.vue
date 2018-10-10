@@ -40,6 +40,7 @@
 		background: #fff;
 		height: 38px;
 		// border: 1px solid #ccc;
+		transition: 2s all linear;
 		&.active {
 			.search-a {
 				background: #176de6;
@@ -48,6 +49,7 @@
 		.search-a {
 			position: absolute;
 			top: 0px;
+			border-left: 1px solid #eee;
 			right: -1px;
 			width: 38px;
 			height: 38px;

@@ -18,7 +18,7 @@
       }
     },
     components:{
-      'otype-list':()=>import('./otypeList')
+      'otype-list':()=>import('../components/otypeList')
     },
     computed:{},
     mounted(){

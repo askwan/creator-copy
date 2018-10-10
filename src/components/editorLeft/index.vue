@@ -23,11 +23,11 @@
     components:{
       'diagramList':()=>import('./tabs/diagramList.vue'),
       'objectDetail':()=>import('./tabs/objectDetail.vue'),
-      'relationOperate':()=>import('./tabs/relationOperate.vue'),
       'objectList':()=>import('./tabs/objectList.vue'),
       'relationList':()=>import('./tabs/relationList.vue'),
       'behaviorList':()=>import('./tabs/behaviorList.vue'),
-      'searchList':()=>import('./tabs/searchList.vue')
+      'searchList':()=>import('./tabs/searchList.vue'),
+      'addRelation':()=>import('./tabs/addRelation.vue')
     },
     computed:{},
     mounted(){
@@ -46,7 +46,6 @@
       listenEvent(){
         vm.$on(operate.changeTab,obj=>{
           this.componentId = obj.name;
-          console.log(obj,456)
         })
       }
     }

@@ -7,7 +7,7 @@
       <el-collapse>
         <el-collapse-item v-for='node in nodes' :key="node.id">
           <template slot="title">
-            <div class="relation-el flex-align">
+            <!-- <div class="relation-el flex-align">
               <span class="font-14">{{objectDetail.name|formateName}}</span>
               <div class="flex-column">
                 <span class="r-name">{{node.edge.relation.name}}</span>
@@ -18,7 +18,8 @@
               </div>
               <span class="font-14">{{node.label}}</span>
               <i class="el-icon-delete mg-left-big pointer font-danger font-16"></i>
-            </div>
+            </div> -->
+            <common-connect :left="objectDetail.name|formateName" :right="node.label" :center="node.edge.relation.name"></common-connect>
           </template>
           <div>
             <el-form size="mini" label-width="80px" v-if="node.edge.relation" >
@@ -49,7 +50,9 @@
         defalut:{}
       }
     },
-    components:{},
+    components:{
+      commonConnect:()=>import('@/components/common/connect.vue')
+    },
     computed:{},
     filters:{
       formateName(str){

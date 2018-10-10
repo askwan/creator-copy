@@ -18,6 +18,8 @@ export default {
     vm.$on(operate.notice,obj=>{
       if(obj.message){
         obj.message = obj.message.slice(0,20);
+      }else{
+        obj.message = '未知错误'
       };
       obj.type = obj.type || 'info';
       obj.title = obj.title || '提示';

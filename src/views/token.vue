@@ -15,6 +15,7 @@
 			if(_token) { //判断地址栏是否有token
 				common.setItem("token", _token);
 				common.getNewUser("get", "/account/authorize", {}, res => {
+					console.log(res,7777777777777777777)
 					common.setUserInfo(res);
 					this.$router.push({
 						path: "/"

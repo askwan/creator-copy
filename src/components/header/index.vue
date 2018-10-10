@@ -57,11 +57,10 @@
     mounted(){
       this.listenEvent();
       this.userName = common.getInfo('nickName');
-      console.log(Boolean(this.userName),8888888)
       this.icon = common.getAvatar(common.getInfo('avatar'));
-      // if(!this.userName){
-      //   common.exitUser.exitAddress();
-      // }
+      if(!this.userName){
+        common.exitUser.exitAddress();
+      }
     },
     methods:{
       listenEvent(){
@@ -84,7 +83,7 @@
         this.activeName = 1
         this.chooseItem=='浏览'?this.chooseItem = '编辑':this.chooseItem = '浏览';
         let path = '';
-        this.chooseItem=='浏览'?path = '/view':path = '/map';
+        this.chooseItem=='浏览'?path = '/view':path = '/edit';
         this.$router.push(path)
       }
     }

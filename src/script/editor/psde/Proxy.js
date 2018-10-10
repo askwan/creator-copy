@@ -5,9 +5,9 @@ import {
   psdeApiGet
 } from './config'
 // import common from '@/script/common.js'
-import Vue from 'vue'
+// import Vue from 'vue'
 
-let message = new Vue();
+// let message = new Vue();
 /**
  * 代理接口
  * 
@@ -98,16 +98,16 @@ class Proxy extends CoreData {
           resolve(res.data.data);
         }else if(res.data.status==500){
           reject(res)
-          message.$message({message:"内部错误",type:"error",showClose:true});
+          // message.$message({message:"内部错误",type:"error",showClose:true});
         }else if(res.data.status==450){
           // common.exitUser.clearUser();
         }else{
           reject(res);
-          message.$message({message:res.data.message,type:"error",showClose:true});
+          // message.$message({message:res.data.message,type:"error",showClose:true});
         }
       }).catch(err=>{
         reject(err)
-        message.$message({message:err,type:"error",showClose:true});
+        // message.$message({message:err,type:"error",showClose:true});
       })
     })
   }

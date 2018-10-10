@@ -10,6 +10,7 @@
   import Editor from '@/script/editor';
   import {vm,operate,getEditor} from '@/script/operate'
   import {State,findOtypeById} from '@/script/editor/utils/store'
+  import mapposition from '@/script/mapposition'
   let editor
   export default {
     data(){
@@ -33,6 +34,11 @@
         editor = new Editor();
         editor.init(document.getElementById('container'),context=>{
           console.log('ready');
+          //定位
+          let map = context.map();
+          let position = mapposition.getMapPosition();
+          map.centerZoom([position.lng, position.lat], position.zoom);
+
           editor.on('currentObject',data=>{
             if(data.object) {
               this.currentObj = data.object;
@@ -45,10 +51,28 @@
             }else{
               vm.$emit(operate.changeTab,{name:'searchList'})
             }
+          });
+          editor.on('notice',obj=>{
+            if(obj.message){
+              obj.message = obj.message.slice(0,20);
+            };
+            obj.type = obj.type || 'info';
+            obj.title = obj.title || '提示';
+            this.$notify(obj);
           })
         });
         getEditor(editor);
       }
+    },
+    destroyed(){
+      console.log('d-editor');
+      let map = editor.idContext.map();
+      console.log(map.center())
+      mapposition.saveMapPosition({
+        lng: map.center()[0],
+        lat: map.center()[1],
+        zoom: map.zoom()
+      });
     }
   }
 </script>

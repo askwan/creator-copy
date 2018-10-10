@@ -3,10 +3,6 @@ import { osmNode, osmRelation, osmWay } from '../../id-editor/modules/osm'
 import osm from '../../psde/form/osm'
 import psde from '../../psde'
 
-import IdEdit from '../../id_edit/IdEdit'
-
-import { allOtype, getOtypeById,clearRelationArr,relationArr } from '../parseToOsm/allOtype'
-
 import { State } from '../store'
 
 var jsonObjectsList
@@ -38,7 +34,7 @@ function parseObjectToOsm (jsonObjects, callback) {
     // allDatas[jsonObjectsList[i].id] = jsonObjectsList[i]
   }
   entities.sort((a,b)=>TYPE[a.type]>TYPE[b.type]);
-  console.log(entities,4444444444444);
+  // console.log(entities,4444444444444);
   callback(null, entities)
 }
 

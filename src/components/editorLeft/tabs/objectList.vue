@@ -1,21 +1,27 @@
 <template>
-  <div class='object-list pd-big'>
-    <div v-for="item in objectList" :key="item.id" class="object-el pointer-shadow radius-2 mg-bottom-big flex-align pd-left-small pd-right-small" @click="selectObj(item)">
-      <div class="icon-text flex-center radius-2 mg-right-big">
-        <span class="font-14 font-white">{{item.name|splice2}}</span>
-      </div>
-      <div class="el-content">
-        <p class="font-black font-14 text-ellipsis">{{item.name|formatstr}}（ {{item.otype.id|toName}} ）</p>
-        <p class="font-info font-12 text-ellipsis" :title="item.attributes|toString">属性：{{item.attributes|toString}}</p>
-        <div class="align-right"><span class="pointer-danger font-info" @click.stop="deleteObj(item)">删除</span></div>
-      </div>
+  <div class="object-box fill">
+    <div class="pd-left-small pd-right-small">
+      <common-head title="对象列表" @back="back"></common-head>
     </div>
-    <div class="block">
-      <el-pagination
-        layout="prev, pager, next"
-        small
-        :total="1000">
-      </el-pagination>
+  
+    <div class='object-list pd-big'>
+      <div v-for="item in objectList" :key="item.id" class="object-el pointer-shadow radius-2 mg-bottom-big flex-align pd-left-small pd-right-small" @click="selectObj(item)">
+        <div class="icon-text flex-center radius-2 mg-right-big">
+          <span class="font-14 font-white">{{item.name|splice2}}</span>
+        </div>
+        <div class="el-content">
+          <p class="font-black font-14 text-ellipsis">{{item.name|formatstr}}（ {{item.otype.id|toName}} ）</p>
+          <p class="font-info font-12 text-ellipsis" :title="item.attributes|toString">属性：{{item.attributes|toString}}</p>
+          <div class="align-right"><span class="pointer-danger font-info" @click.stop="deleteObj(item)">删除</span></div>
+        </div>
+      </div>
+      <div class="block">
+        <el-pagination
+          layout="prev, pager, next"
+          small
+          :total="1000">
+        </el-pagination>
+      </div>
     </div>
   </div>
 </template>
@@ -33,7 +39,9 @@
       }
     },
     props:['currentObject'],
-    components:{},
+    components:{
+      commonHead:()=>import('@/components/common/tabHead.vue')
+    },
     computed:{
 
     },
@@ -50,7 +58,6 @@
         return _arr.join(';')
       },
       toName(id){
-        // console.log(State.otypes,id);
         let otype = State.otypes[id];
         return (typeof otype === 'object' && otype.name.length>0) ? otype.name : 'default'
       },
@@ -85,15 +92,12 @@
 				});
       },
       getObjectByRelation(){
-        // console.log(this.currentRelation,7777777777777);
         let connector = this.otype.connectors.connectors.find(el=>el.relation.id==this.currentRelation.id);
-        console.log(connector,666666666666)
         let obj = {
           otNames:connector.dType.name
         };
         psde.objectQuery.ByNameAndOTName.query(obj).then(res=>{
           this.objectList = res.list;
-          console.log(this.objectList,555555555)
         })
       },
       selectObj(obj){
@@ -114,6 +118,13 @@
       },
       deleteObj(obj){
         console.log("delete",obj)
+      },
+      back(){
+        if(IdEdit.currentRelation){
+          vm.$emit(operate.changeTab,{name:'relationList'});
+        }else{
+          vm.$emit(operate.changeTab,{name:'objectDetail'});
+        }
       }
     }
   }

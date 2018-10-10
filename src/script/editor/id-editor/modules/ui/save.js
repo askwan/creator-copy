@@ -1,6 +1,5 @@
 import { interpolateRgb as d3_interpolateRgb } from 'd3-interpolate';
 
-// import psdeGraph from '../../../psde/PsdeGraph'
 
 import {
     event as d3_event,
@@ -42,8 +41,6 @@ export function uiSave(context) {
 
         //保存数据
         context.saveObjects(context);
-        // psdeGraph.saveObjects(context);
-        // console.log('save',22545545)
     }
 
 

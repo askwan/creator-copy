@@ -3,7 +3,7 @@
     
     <el-form size="mini">
       <el-form-item>
-        <div class="flex">
+        <div class="flex-between">
           <el-select v-model = 'selectRelation' class="select" placeholder="请选择关系" :disabled="Boolean(item.parent)">
             <el-option v-for="(item,i) in mapRelation" :key="i" :label="item.name||item.id" :value="item.id">
             </el-option>
@@ -12,7 +12,7 @@
         </div>
       </el-form-item>
       <el-form-item>
-        <div class="flex">
+        <div class="flex-between">
           <el-select v-model="role" placeholder="添加角色">
             <el-option label="inner" value="inner"></el-option>
             <el-option laber="outer" value="outer"></el-option>
@@ -20,12 +20,7 @@
           <div v-show="item.relation"  class="delete-btn" @click="deleteRelation">删除</div>
         </div>
       </el-form-item>
-      <el-form-item>
-        <el-select v-model="arr" multiple
-    filterable>
-          <el-option v-for="(item,i) in lists" :key="i" label="item" :value="item"></el-option>
-        </el-select>
-      </el-form-item>
+      
     </el-form>
   </div>
 </template>
@@ -44,7 +39,6 @@
         relationCollection:[{id:1,name:'新关系',tags:{name:'新关系'}}],
         selectRelation:this.item.relation||'',
         role:this.item.role||'',
-        arr:[],
         lists:[1,2,3,4]
       }
     },
@@ -248,9 +242,5 @@
       flex-basis: 40px;
       text-align: right;
     }
-  }
-  .flex{
-    display: flex;
-    justify-content: space-between;
   }
 </style>

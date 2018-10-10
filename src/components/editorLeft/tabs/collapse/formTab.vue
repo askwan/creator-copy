@@ -128,7 +128,6 @@
 
 	import * as formCtrl from "./formCtrl";
 
-	// import {operationDelete} from '@/iD-2.7.1/modules/operations/delete'
   var IdEdit;
 	export default {
 		data() {
@@ -163,7 +162,7 @@
 		},
 		props: ["objectDetail"],
 		components: {
-			relationOperate:()=>import('./relationOperate')
+			relationOperate:()=>import('../../components/relationOperate')
 		},
 		beforeMount(){
 			IdEdit = getEditor();
@@ -723,6 +722,7 @@
 			float: right;
 			margin-right: 20px;
 			color: #ff0000;
+			margin-top: 16px;
 		}
 		.right-collapse-top {
 			position: absolute;

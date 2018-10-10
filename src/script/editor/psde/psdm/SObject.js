@@ -48,7 +48,6 @@ export default class SObject extends DObject {
             el.style = ''
           }
         }
-        console.log(el,6666666666666)
         if(el.geom.geotype==21){
           // el.geom = new osm.OsmNode();
           el.geom = new osm.OsmNode().copy(el.geom);

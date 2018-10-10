@@ -67,19 +67,19 @@
       getAttrs(){
         this.attrs = [];
           new psde.OType().query({ids:this.sobject.otype.id}).then(res=>{
-            let arr = res.list[0].fields.fields;
-            if(this.sobject.attributes.length==0){
-              arr.forEach(el=>{
-                let obj = {};
-                obj.name = el.caption;
-                obj.value = '';
-                this.attrs.push(obj);
-              })
-            }
+            let arr = res.list[0].fields.fields;  
+            arr.forEach(el=>{
+              let obj = {};
+              obj.name = el.caption;
+              obj.value = '';
+              obj.fid = el.id;
+              this.attrs.push(obj);
+            })
             this.sobject.attributes.forEach(attr=>{
-              let field = arr.find(el=>el.id==attr.fid);
+              let field = this.attrs.find(el=>el.fid==attr.fid);
               if(field) {
-                attr.name = field.caption||field.name;
+                field.value = attr.value;
+              }else{
                 this.attrs.push(attr);
               }
             })

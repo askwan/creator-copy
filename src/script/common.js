@@ -48,6 +48,7 @@ common.getItem = function (name) { // 获取cookie
   return localStorage.getItem(name)
 }
 common.setInfo = function (name, val) { // 设置cookie
+  if(typeof window.user !=='object') window.user = {};
   window.user[name] = val
 }
 common.getInfo = function (name) { // 获取cookie

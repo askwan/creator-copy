@@ -24,7 +24,7 @@
       this.getDiagram();
       this.getModels();
       this.getRelationType();
-      localStorage.setItem('token','eyJ1aWQiOjE4OTczLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1MzkwNDQ4MTMsImlzcyI6Imh0dHA6Ly93d3cuYmx1ZXRoaW5rLmNuIiwidHlwIjoiSldUIiwiZXhwIjoxNTM5MDU1NjEzLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzOTA0NDgxM30.AZP4GZHmUYIPYC3GWMbXCwICR9Xhsadq75uy53wqVqo')
+      // localStorage.setItem('token','eyJ1aWQiOjE4OTczLCJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE1MzkwNDQ4MTMsImlzcyI6Imh0dHA6Ly93d3cuYmx1ZXRoaW5rLmNuIiwidHlwIjoiSldUIiwiZXhwIjoxNTM5MDU1NjEzLCJhbGciOiJIUzI1NiIsImlhdCI6MTUzOTA0NDgxM30.AZP4GZHmUYIPYC3GWMbXCwICR9Xhsadq75uy53wqVqo')
     }, 
     methods:{
       getDiagram(){

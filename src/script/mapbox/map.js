@@ -10,7 +10,7 @@ import vectorSelect from './VectorSelect'
 let mapboxMap = {}
 let marker = null
 
-function createMapboxMap (container) {
+function createMapboxMap (container,callback) {
   let map = createMap(container)
   axios.get(psdeHost + '/stylePreview/sourceLayers').then(function (res) {
     for (let i = 0; i < res.data.length; i++) {
@@ -22,7 +22,10 @@ function createMapboxMap (container) {
         map.addLayer(layer)
       }
     }
-
+    
+    if(callback){
+      callback();
+    }
 
   })
   mapboxMap = map

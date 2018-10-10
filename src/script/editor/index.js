@@ -1,7 +1,5 @@
 import * as iD from './id-editor/modules';
 
-import {vm,operate} from '../operate'
-
 // import "./id-editor/css/00_reset.css";
 // import "./id-editor/css/20_map.css";
 // import "./id-editor/css/25_areas.css";
@@ -15,7 +13,6 @@ import {vm,operate} from '../operate'
 // import "./id-editor/css/70_fills.css";
 // import "./id-editor/css/80_app.css";
 import psde from './psde';
-// import psdeGraph from './psde/PsdeGraph'
 
 import { dispatch as d3_dispatch } from 'd3-dispatch';
 import { select as d3_select } from 'd3-selection';
@@ -29,7 +26,7 @@ import editsave from './utils/EditSave'
 import {Relation,Delete} from './operates'
 
 
-const dispatch = d3_dispatch('currentObject')
+const dispatch = d3_dispatch('currentObject','notice')
 
 var relationRandomId = 1;
 let isAjax = true;
@@ -89,7 +86,6 @@ export default class Editor {
       }
     });
     this.idContext.on('saveObjects',context=>{
-      // psdeGraph.saveObjects(context);
       this.saveEdit(context);
     })
   }
@@ -98,7 +94,6 @@ export default class Editor {
 
   setTool (style, otype, modeOptions) {
     let geotype = modeOptions.form.geotype;
-    // console.log(style,otype,modeOptions,55555555);
     this.currentForm = modeOptions.form;
     if (geotype == 21) {
       d3_select('.add-point').nodes()[0].click();
@@ -107,7 +102,6 @@ export default class Editor {
     }else if (geotype == 23) {
       d3_select('.add-area').nodes()[0].click();
     };
-    // this.
   }
   createSobject (entityId, otype, formType, geoType) {
     let sobject = this.currentGraph.createSobjectByOsmEntityId(entityId, otype, formType, geoType);
@@ -163,31 +157,25 @@ export default class Editor {
     return aimobj
   }
   getSobjectById (sid) {
-    if (this.currentGraph.sobjectList[sid]) {
-      return this.currentGraph.sobjectList[sid]
-    }
-    if (this.sobjectlist[sid]) {
-      return this.sobjectlist[sid]
-    }
-    return null
+    return State.sobjects[sid];
+    // if (this.currentGraph.sobjectList[sid]) {
+    //   return this.currentGraph.sobjectList[sid]
+    // }
+    // if (this.sobjectlist[sid]) {
+    //   return this.sobjectlist[sid]
+    // }
+    // return null
   }
   saveEdit (context) {
     let json = editsave.getSaveSObject(context, this);
-    console.log(json);
+    console.log(json,'save');
 
-    return 
+    // return 
     let token = localStorage.getItem('token');
-    if (!json.length) return vm.$emit(operate.notice,{
-      title:'提示',
-      message:'未检测到变更。'
-    });
+
+    if(!json.length) return dispatch.call('notice',this,{title:'提示',message:'未检测到变更'});
     
-    let loading = vm.$loading({
-      lock:true,
-      text:'加载中',
-      spinner:'el-icon-loading',
-      background:'rgba(255,255,255,.2)'
-    });
+    
     if (isAjax) {
       isAjax = false;
       psde.psdeApi.post(`/object/saveObject?token=${token}`, json).then((result) => {
@@ -197,19 +185,18 @@ export default class Editor {
           
           context.flush();
           this.clearGraph();
-          vm.$emit(operate.notice,{
+          dispatch.call('notice',this,{
             type:'success',
             title:'成功',
             message:'保存成功'
           });
         }else {
-          vm.$emit(operate.notice,{
+          dispatch.call('notice',{
             type:'error',
             title:'错误',
             message:'保存失败'
           })
         };
-        loading.close();
       })
     }
   }
@@ -287,6 +274,12 @@ export default class Editor {
   }
   deleteParent(id){
     this.currentSobject.deleteParent({id:id});
+  }
+  updateObject(object){
+    let sobject = this.getSobjectById(object.id);
+    console.log(sobject,4444554)
+    sobject.modifyObject(object);
+    this.updateAndHistory(object)
   }
 
 

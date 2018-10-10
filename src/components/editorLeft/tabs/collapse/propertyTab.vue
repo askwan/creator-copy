@@ -14,11 +14,11 @@
 					</div>
 					<div class="object-attributes-value">
 						<div class="object-attributes-list" v-for="(item,index) in objectAttrLists" :key="index">
-							<input v-if="!item.noEdit" type="text" :value="getFieldLabel(item.name)" :readonly="!item.noEdit" />
-							<input v-else type="text" v-model="item.name" :readonly="!item.noEdit" />
+							<input class="pd-left-mini" v-if="!item.noEdit" type="text" :value="getFieldLabel(item.name)" :readonly="!item.noEdit" />
+							<input class="pd-left-mini" v-else type="text" v-model="item.name" :readonly="!item.noEdit" />
 
-							<input v-if="getIntypeVal(item.fid)=='Text' || getIntypeVal(item.fid)=='Textarea'" type="text" v-model="item.value"  @blur="lastValue(item,index)" placeholder="请输入内容" />
-							<input v-else-if="getIntypeVal(item.fid)=='Number'" type="number" :placeholder="'范围：'+getMinVal(item.fid)+' ~ '+getMaxVal(item.fid)" :min="getMinVal(item.fid)" :max="getMaxVal(item.fid)" v-model="item.value" @blur="lastValue(item,index)" />
+							<input class="pd-left-mini" v-if="getIntypeVal(item.fid)=='Text' || getIntypeVal(item.fid)=='Textarea'" type="text" v-model="item.value"  @blur="lastValue(item,index)" placeholder="请输入内容" />
+							<input class="pd-left-mini" v-else-if="getIntypeVal(item.fid)=='Number'" type="number" :placeholder="'范围：'+getMinVal(item.fid)+' ~ '+getMaxVal(item.fid)" :min="getMinVal(item.fid)" :max="getMaxVal(item.fid)" v-model="item.value" @blur="lastValue(item,index)" />
 							<el-date-picker v-else-if="getIntypeVal(item.fid)=='Date'" v-model="item.value" @change="lastValue(item,index)" type="datetime" placeholder="选择日期时间" default-time="00:00:00">
 							</el-date-picker>
 
@@ -32,7 +32,7 @@
 								</el-option>
 							</el-select>
 
-							<input v-else type="text" v-model="item.value" @blur="lastValue(item,index)" placeholder="请输入内容" />
+							<input class="pd-left-mini" v-else type="text" v-model="item.value" @blur="lastValue(item,index)" placeholder="请输入内容" />
 							<i class="el-icon-delete" v-if="getDeleteShow(item,index)" @click="deleteAttr(item,index)"></i>
 						</div>
 						<div class="add-diy" @click="addProperty">
@@ -371,7 +371,7 @@
 				width: 100%;
 				height: 30px;
 				display: flex;
-				align-items: center;
+				// align-items: center;
 				input {
 					border: 0;
 					border-radius: 0;
@@ -390,6 +390,7 @@
 				i{
 					color: #666666;
 					cursor: pointer;
+					line-height:30px;
 				}
 				i:hover{
 					color: red;

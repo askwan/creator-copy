@@ -59,12 +59,12 @@
       }
     },
     components:{
-      'propertyTab':()=>import('./propertyTab.vue'),
-      'formTab':()=>import('./formTab.vue'),
-      'relationTab':()=>import('./relationTab.vue'),
-      'behaviorTab':()=>import('./behaviorTab.vue'),
-      'domainTab':()=>import('./domainTab.vue'),
-      'constituteTab':()=>import('./constituteTab.vue')
+      'propertyTab':()=>import('./collapse/propertyTab.vue'),
+      'formTab':()=>import('./collapse/formTab.vue'),
+      'relationTab':()=>import('./collapse/relationTab.vue'),
+      'behaviorTab':()=>import('./collapse/behaviorTab.vue'),
+      'domainTab':()=>import('./collapse/domainTab.vue'),
+      'constituteTab':()=>import('./collapse/constituteTab.vue')
     },
     computed:{},
     activated(){
